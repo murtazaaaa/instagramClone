@@ -1,0 +1,104 @@
+<ion-header>
+  <ion-toolbar class="insta-feed-header">
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon name="camera"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="insta-font" >
+      Instagram
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="tv"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="paper-plane"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-segment scrollable class="status-wrapper">
+
+    <ion-segment-button class="status-item own-status">
+      <ion-avatar>
+        <img src="{{userData.picture.thumbnail}}">
+      </ion-avatar>
+      <ion-label>Your story</ion-label>
+      <ion-icon name="add" class="plus-icon"></ion-icon>
+    </ion-segment-button>
+
+    <ion-segment-button *ngFor="let status of statusList" class="status-item other-status">
+        <ion-avatar>
+          <img [src]="status.picture.thumbnail">
+        </ion-avatar>
+        <ion-label>{{status.name.first}} {{status.name.last}}</ion-label>
+    </ion-segment-button>
+
+  </ion-segment>
+
+  <ion-card class="feed-card" *ngFor="let feed of feedList">
+      <ion-card-content class="feed-user-wrapper">
+        <div class="ion-align-items-center user-image-wrapper">
+          <img [src]="feed.picture.thumbnail">
+        </div>
+        <div class="user-details">
+          <p class="user-name">{{feed.name.first}} {{feed.name.last}}</p>
+          <p class="user-place">{{feed.location.city}}</p>
+        </div>
+        <ion-buttons slot="end">
+          <ion-button>
+            <ion-icon name="ellipsis-vertical"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-card-content>
+      <div class="feed-slides-wrapper">
+
+        <ion-slides pager="true" [options]="slideOpts" class="feed-slides">
+          <ion-slide>
+            <img [src]="'https://picsum.photos/1000/1200'"/>
+          </ion-slide>
+        </ion-slides>
+
+        <div class="feed-btn-wrapper">
+          <ion-buttons class="ion-float-left">
+            <ion-button>
+              <ion-icon name="heart-outline"></ion-icon>
+            </ion-button>
+            <ion-button>
+              <ion-icon name="chatbubbles"></ion-icon>
+            </ion-button>
+            <ion-button>
+              <ion-icon name="paper-plane"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+
+          <ion-buttons class="ion-float-right">
+            <ion-button>
+              <ion-icon name="bookmark"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </div>
+      </div>
+      <ion-card-content class="feed-details-container">
+        <p> <strong>126 likes</strong> </p>
+        <p class="user-given-details">
+          <ion-avatar>
+            <img [src]="feed.picture.thumbnail">
+          </ion-avatar>
+          <strong class="user-name">{{feed.name.first}} {{feed.name.last}} </strong>
+          <span class="feed-text">Lorem Ipsum..</span>
+          <span class="grey-text"> more</span>
+        </p>
+        <p class="all-comments"> <span class="grey-text">View All Comments</span></p>
+        <p class="post-time"> <span class="grey-text">{{feed.registered.date | date: 'dd-MM-YYYY'}}</span></p>
+      </ion-card-content>
+    </ion-card>
+    <ion-infinite-scroll #infinite (ionInfinite)="getPosts($event)" *ngIf='!status'>
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+</ion-content>
